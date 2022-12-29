@@ -1,30 +1,37 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+    <div class="banner flex">
+        <router-link to="/">
+            <h2 class="title">Sakana!</h2>
+        </router-link>
+        <router-link to="/">
+            <img src="./static/sakana.png" class="avatar">
+        </router-link>
+    </div>
+    <router-view></router-view>
+    <div class=""></div>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script setup>
 
-nav {
-  padding: 30px;
-}
+</script>
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
+<style scoped>
+.banner {
+    background-color: #0a0c0f;
+    height: 80px;
+    width: 100%;
+    position: fixed;
+    z-index: 9998;
 }
-
-nav a.router-link-exact-active {
-  color: #42b983;
+.avatar {
+    width: 80px;
+    height: 80px;
+    display: block;
+}
+.title {
+    margin-left: 30px;
+    color: white;
+    font-size: 30px;
+    line-height: 60px;
 }
 </style>

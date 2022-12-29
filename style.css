@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    font-family: HarmonyOS_Regular;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    background-color: rgb(10, 12, 15);
+}
+
+/* ::-webkit-scrollbar-button {
+    display: none;
+    color: aliceblue;
+} */
+
+::-webkit-scrollbar-thumb {
+    background-color: #25252b;
+    border-radius: 6px;
+    -webkit-transition: background 200ms ease;
+    -moz-transition: background 200ms ease;
+    transition: background 200ms ease;
+}
