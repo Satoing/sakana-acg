@@ -123,10 +123,10 @@ export default {
                     const url = el.attribs.href
                     // console.log(url.substring(0, 3));
                     if(url.substring(0, 4)!='http') {
-                        const imgurl = el.childNodes[1].attribs.src
+                        const thumb = el.childNodes[1].attribs.src
                         const title = el.childNodes[1].attribs.title
                         // const update = el.childNodes[3].children[0].data
-                        animelist.push({ url, imgurl, title })
+                        animelist.push({ url, thumb, title })
                     }
                     count++
                 })
@@ -163,10 +163,10 @@ export default {
                     const url = el.attribs.href
                     // console.log(url.substring(0, 3));
                     if(url.substring(0, 4)!='http') {
-                        const imgurl = el.childNodes[1].attribs.src
+                        const thumb = el.childNodes[1].attribs.src
                         const title = el.childNodes[1].attribs.title
                         // const update = el.childNodes[3].children[0].data
-                        animelist.push({ url, imgurl, title })
+                        animelist.push({ url, thumb, title })
                     }
                     count++
                 })
@@ -185,6 +185,12 @@ export default {
 }
 </script>
 <style>
+@media (max-width:1020px){
+    .input-box {width: 400px !important;}
+}
+@media (max-width:820px){
+    .input-box {width: 35% !important;}
+}
 .el-radio__label {
     color: hsla(0,0%,100%,.9);
 }
@@ -229,5 +235,36 @@ export default {
 .el-button {
     margin: 4px 5px 0 5px !important;
     display: inline-block !important;
+}
+.input-box {
+    width: 600px;
+    margin: 0 auto;
+}
+.el-input__wrapper {
+    background-color: #e5e5e9 !important;
+    border-radius: 20px !important;
+}
+.el-input {
+    font-size: 14px;
+    color: #6b6b6c;
+    margin-top: 20px;
+}
+
+.el-input__icon {
+    color: #818185dc !important;
+}
+.el-input__wrapper.is-focuse {
+    box-shadow: 0 0 0 1px 
+    orange inset !important;
+}
+.myicon {
+    color:white !important;
+    font-size: 20px !important;
+    font-weight: bolder !important;
+    margin-left: 15px !important;
+    background-color: #1b1d22;
+    border-radius: 25%;
+    width: 25px !important;
+    height: 25px !important;
 }
 </style>

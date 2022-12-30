@@ -1,18 +1,43 @@
 <template>
-    <div class="banner flex">
+    <div class="banner flex flex-row-reverse">
+        <router-link to="/" style="margin-right:3%">
+            <img src="./static/sakana.png" class="avatar">
+        </router-link>
         <router-link to="/">
             <h2 class="title">Sakana!</h2>
         </router-link>
-        <router-link to="/">
-            <img src="./static/sakana.png" class="avatar">
-        </router-link>
+        <div class="input-box">
+            <el-input placeholder="搜索动漫" v-model="searchValue" prefix-icon="search" clearable
+            @focuse="clearvalue" @keyup.enter="submit"/>
+        </div>
+        <div class="btns">
+            <el-icon class="myicon" @click="$router.push('/')"><House /></el-icon>
+            <el-icon class="myicon" @click="$router.go(-1)"><ArrowLeft /></el-icon>    
+            <el-icon class="myicon" @click="$router.go(1)"><ArrowRight /></el-icon>
+            <el-icon class="myicon" @click="$router.go(0)"><RefreshLeft /></el-icon>
+        </div>
     </div>
     <router-view></router-view>
     <div class=""></div>
 </template>
 
-<script setup>
-
+<script>
+export default {
+    data() {
+        return {
+            searchValue: ''
+        }
+    },
+    methods: {
+        clearvalue() {
+            console.log("触发");
+            this.searchValue = ''
+        },
+        submit() {
+            this.$router.push(`/search?q=${this.searchValue}`)
+        }
+    }
+}
 </script>
 
 <style scoped>
@@ -29,9 +54,12 @@
     display: block;
 }
 .title {
-    margin-left: 30px;
+    margin-left: 10px;
     color: white;
     font-size: 30px;
     line-height: 60px;
+}
+.btns {
+    margin: 25px 0 10px 20px;
 }
 </style>

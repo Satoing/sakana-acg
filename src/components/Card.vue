@@ -20,7 +20,7 @@ export default {
     },
     computed: {
         imgurl() {
-            return `url('${this.anime.imgurl}')`;
+            return `url('${this.anime.thumb}')`;
         },
         cardh() {
             const ele = document.getElementsByClassName('card')[0]

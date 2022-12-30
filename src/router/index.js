@@ -4,12 +4,14 @@ import {createRouter, createWebHashHistory} from 'vue-router'
 import Index from '../components/Index.vue'
 import Playlist from "../components/Playlist.vue";
 import Play from "../components/Play.vue";
+import Result from "../components/Result.vue";
 
 // 定义路由表
 const routes = [
   {path: '/', component: Index},
   {path: '/acg/:id', component: Playlist},
   {path: '/play', component: Play},
+  {path: '/search', component: Result},
 ]
 
 // 创建路由实例

@@ -2,8 +2,24 @@
     <div class="player">
         <div class="box" style="background-color: #111319;">
             <div class="MacPlayer">
-                <div class="left">
+                <div class="left" v-if="flag==0">
                     <iframe :src="videourl" width="100%" height="100%" frameborder="0" 
+                    border="0" marginwidth="0" marginheight="0" scrolling="no" 
+                    allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" 
+                    msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" 
+                    webkitallowfullscreen="webkitallowfullscreen" security="restricted" 
+                    sandbox="allow-same-origin allow-forms allow-scripts"></iframe>
+                </div>
+                <div class="left" v-if="flag==1">
+                    <iframe :src="videourl1" width="100%" height="100%" frameborder="0" 
+                    border="0" marginwidth="0" marginheight="0" scrolling="no" 
+                    allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" 
+                    msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" 
+                    webkitallowfullscreen="webkitallowfullscreen" security="restricted" 
+                    sandbox="allow-same-origin allow-forms allow-scripts"></iframe>
+                </div>
+                <div class="left" v-if="flag==2">
+                    <iframe :src="videourl2" width="100%" height="100%" frameborder="0" 
                     border="0" marginwidth="0" marginheight="0" scrolling="no" 
                     allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" 
                     msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" 
@@ -46,7 +62,7 @@
                                     @click="play(5, index)" style="margin-button:5px !important;">{{ item.split(',')[2] }}</el-button>
                                 </el-row></el-tab-pane>
                         </el-tabs>
-                        <p style="color:#e0e2e3;">推荐使用最大线播放~</p>
+                        <p style="color:#e0e2e3;">如不能播放，请切换线路</p>
                     </div>
                 </div>
 
@@ -85,7 +101,7 @@
                                 @click="play(5, index)" style="margin-button:5px !important;">{{ item.split(',')[2] }}</el-button>
                             </el-row></el-tab-pane>
                     </el-tabs>
-                    <p style="color:#e0e2e3;">推荐使用最大线播放~</p>
+                    <p style="color:#e0e2e3;">如不能播放，请切换线路</p>
                 </div>
                                 
             </div>
@@ -108,12 +124,19 @@ export default {
             playlist_fs: [],
             videoUrl: '',
             types: ['primary', 'success', 'warning', 'danger'],
-            myline: 0
+            myline: 0,
+            flag: 0
         }
     },
     computed: {
         videourl() {
             return `https://player.cycdm01.top/?url=${this.videoUrl}`
+        },
+        videourl1() {
+            return `http://v2.shenjw.com:8022/wap.php?url=${this.videoUrl}`
+        },
+        videourl2() {
+            return `http://ss3.quelingfei.com:8080/wap.php?url=${this.videoUrl}`
         },
         height() {
             return `${document.documentElement.clientHeight-80}px`
@@ -135,7 +158,6 @@ export default {
             axios.get(`https://acg-api.fullcomb.top/proxy?url=${localStorage.url}`).then(resp=>{
                 let renamed = eval
                 renamed(resp.data)
-                this.update = unescape(playarr[playarr.length-1].split(",")[2])
                 if(typeof(playarr)!="undefined")
                     {playarr.shift();this.playlist=playarr;this.line[0]=1}
                 if(typeof(playarr_2)!="undefined")
@@ -158,6 +180,10 @@ export default {
                 if(line=='3') this.videoUrl = playarr_wj[epi].split(',')[0]
                 if(line=='4') this.videoUrl = playarr_lz[epi].split(',')[0]
                 if(line=='5') this.videoUrl = playarr_fs[epi].split(',')[0]
+                const reg1 = new RegExp(/^http.*/)
+                const reg = new RegExp(/.*\.m3u8$/) 
+                if(!reg1.test(this.videoUrl)) this.flag = 2;
+                else if(!reg.test(this.videoUrl)) this.flag = 1;
             })
             
         }

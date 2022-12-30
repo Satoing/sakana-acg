@@ -136,9 +136,21 @@ export default {
                 this.imgUrl = res.data.img
                 this.tags = res.data.tags.slice(0,3)
                 axios.get(`https://acg-api.fullcomb.top/proxy?url=${this.url}`).then(resp=>{
+                    if(typeof(playarr)!="undefined")
+                        {playarr = undefined}
+                    if(typeof(playarr_2)!="undefined")
+                        {playarr_2 = undefined}
+                    if(typeof(playarr_1)!="undefined")
+                        {playarr_1 = undefined}
+                    if(typeof(playarr_wj)!="undefined")
+                        {playarr_wj = undefined}
+                    if(typeof(playarr_lz)!="undefined")
+                        {playarr_lz = undefined}
+                    if(typeof(playarr_fs)!="undefined")
+                        {playarr_fs = undefined}
                     let renamed = eval
                     renamed(resp.data)
-                    this.update = unescape(playarr[playarr.length-1].split(",")[2])
+                    // this.update = unescape(playarr[playarr.length-1].split(",")[2])
                     // this.update = lianzaijs_lz
                     if(typeof(playarr)!="undefined")
                         {playarr.shift();this.playlist=playarr;this.line[0]=1}
@@ -152,7 +164,6 @@ export default {
                         {playarr_lz.shift();this.playlist_lz=playarr_lz;this.line[4]=1}
                     if(typeof(playarr_fs)!="undefined")
                         {playarr_fs.shift();this.playlist_fs=playarr_fs;this.line[5]=1}
-                    
                 })
             })
         },
