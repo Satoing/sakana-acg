@@ -1,4 +1,5 @@
 import {createRouter, createWebHashHistory} from 'vue-router'
+import {store} from '../main.js'
 
 // 导入组件
 import Index from '../components/Index.vue'

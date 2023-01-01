@@ -7,3 +7,16 @@ export function getDetail(id){
     })
 }
 
+export function loadMore(q) {
+    return request({
+        url:`/bangumi?q=${q}`,
+        method:'get',
+    })
+}
+
+export function getList(url) {
+    return request({
+        url: `/proxy?url=${url}`,
+        method: 'get'
+    })
+}

@@ -11,12 +11,14 @@ import { createStore } from 'vuex'
 const store = createStore({
     state:{
         playing: '',
-        line: ''
+        line: '',
+        htrans: false,
     },
 })
 
-// 将 store 实例作为插件安装
+console.log = function(){}
 
+// 将 store 实例作为插件安装
 const app = createApp(App)
 app.use(store)
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {

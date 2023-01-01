@@ -1,6 +1,10 @@
 <template>
-    <div class="min-h-screen" style="background-color:#111319;padding-top:80px">
-        <div class="min-h-screen p-4" :class="{defaultbg: !flag, mybg: flag}">
+    <div class="min-h-screen" style="padding-top:80px">
+        <div class="backg" style="background-color:#111319;"></div>
+        <div class="backg" :class="{defaultbg: !more, mybg: more}">
+            <div class="backdrop-brightness-50 backdrop-blur-sm" style="width:100%;height:100%;"></div>
+        </div>
+        <div class="min-h-screen p-4">
             <div class="infos flex">
                 <div class="poster">
                     <img :src="imgUrl" class="poster-img">
@@ -12,8 +16,7 @@
                         <el-switch
                             v-model="more"
                             size="large"
-                            active-text="刮削器"
-                            :disabled="more"
+                            active-text="开启背景"
                         />
                     </div>
 
@@ -29,13 +32,14 @@
                         {{ item }}
                         </el-tag>
                     </div>
-                    <div style="margin:5px 0;">
-                        <span style="font-size:14px;color: orange;">导演：</span>
-                        <span v-for="tag in dir" class="tag">{{ tag }}</span>
-                    </div>
-                    <div style="margin:5px 0;">
-                        <span style="font-size:14px;color: orange;">脚本：</span>
-                        <span v-for="tag in writters" class="tag">{{ tag }}</span>
+                    <div style="margin-top:20px;">
+                        <img src="../static/bgm.png" style="width:30px;display: inline;">
+                        <span style="font-size:15px;vertical-align:bottom;color:#ff77ab;font-weight:bolder;">&nbsp;评分：</span>
+                        <span style="font-size:20px;vertical-align:bottom;color:#ff77ab;font-weight:bolder;">{{ score }}</span>
+                        <div style="margin-top:10px;">
+                            <div style="color:#ff77ab;font-size:15px;font-weight:bolder;">大家给这部动漫的标注为：</div>
+                            <div style="max-width:400px;font-weight:500;"><span v-for="cate in cates" style="font-size:13px;">{{ cate }}&nbsp;</span></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -76,6 +80,10 @@
                 </el-tabs>
             </div>
 
+            <div class="characters" style="padding:0 5%;">
+                <Character v-for="cha in characters" :cha="cha" style="display:inline-block;"></Character>
+            </div>
+
             <div class="intro" :class="{occlusion:isfold, relh:!isfold}">{{ intro }}</div>
             <div class="open" @click="open" v-show="isfold">
                 <el-icon><ArrowDownBold style="" /></el-icon>&nbsp;&nbsp;展开</div>
@@ -87,7 +95,8 @@
 
 <script>
 import axios from 'axios'
-import { getDetail } from '../utils/api'
+import { getDetail, loadMore } from '../utils/api'
+import Character from "./Character.vue";
 
 export default {
     data() {
@@ -96,7 +105,6 @@ export default {
             imgurl: '',
             title: '',
             tags: [],
-            flag: false,
             isfold: true,
             url: '',
             dir: [],
@@ -112,11 +120,38 @@ export default {
             line: [0, 0, 0, 0, 0, 0],
             types1: ["success", "warning", "danger",],
             types: ['primary', 'success', 'warning', 'danger'],
-            imgUrl: ''
+            imgUrl: '',
+            characters: [],
+            cover: '',
+            cates: [],
+            score: '',
         }
+    },
+    components: {
+        Character
     },
     beforeMount() {
         this.load_info()
+    },
+    watch: {
+        title: function() {
+            this.load_more()
+        },
+        more() {
+            this.text = "开启背景"
+            if(this.more) this.$store.state.htrans = true
+            else this.$store.state.htrans = false
+        }
+    },
+    computed: {
+        mycover(){
+            return `url("https://acg-api.fullcomb.top/proxy?type=3&url=${this.cover}")`
+        }
+    },
+    beforeRouteLeave(to, from, next) {
+      console.log("离开详情页面");
+      this.$store.state.htrans = false
+      next()
     },
     methods: {
         play(line, epi) {
@@ -136,18 +171,12 @@ export default {
                 this.imgUrl = res.data.img
                 this.tags = res.data.tags.slice(0,3)
                 axios.get(`https://acg-api.fullcomb.top/proxy?url=${this.url}`).then(resp=>{
-                    if(typeof(playarr)!="undefined")
-                        {playarr = undefined}
-                    if(typeof(playarr_2)!="undefined")
-                        {playarr_2 = undefined}
-                    if(typeof(playarr_1)!="undefined")
-                        {playarr_1 = undefined}
-                    if(typeof(playarr_wj)!="undefined")
-                        {playarr_wj = undefined}
-                    if(typeof(playarr_lz)!="undefined")
-                        {playarr_lz = undefined}
-                    if(typeof(playarr_fs)!="undefined")
-                        {playarr_fs = undefined}
+                    if(typeof(playarr)!="undefined") {playarr = undefined}
+                    if(typeof(playarr_2)!="undefined") {playarr_2 = undefined}
+                    if(typeof(playarr_1)!="undefined") {playarr_1 = undefined}
+                    if(typeof(playarr_wj)!="undefined") {playarr_wj = undefined}
+                    if(typeof(playarr_lz)!="undefined") {playarr_lz = undefined}
+                    if(typeof(playarr_fs)!="undefined") {playarr_fs = undefined}
                     let renamed = eval
                     renamed(resp.data)
                     // this.update = unescape(playarr[playarr.length-1].split(",")[2])
@@ -169,16 +198,51 @@ export default {
         },
         open() {
             this.isfold = !this.isfold
+        },
+        load_more() {
+            console.log(this.title);
+            loadMore(this.title).then(res=>{
+                this.cover = res.data.cover[0]
+                this.characters = res.data.characters
+                this.cates = res.data.tags
+                this.score = res.data.score
+                console.log(this.cates);
+            })
         }
     }
 }
 </script>
 
 <style scoped>
+.backg {
+    background-color: #3f4245;
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: -1;
+}
+.mybg {
+    background-image: v-bind(mycover);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment:fixed;
+}
+.curtain {
+    backdrop-filter:saturate(150%) blur(8px);
+	-webkit-backdrop-filter:saturate(150%) blur(8px);
+	background-color:rgba(0,0,0,.3);
+    padding: 1rem 1rem 0 1rem;
+    padding-bottom:80px;
+    backdrop-filter: brightness(.1);
+    backdrop-filter: blur(4px);
+}
 .defaultbg {
     background-image: url(https://npm.elemecdn.com/cycjs1@1.0.7/static/img/0ba3bf5.png);
     Background-position: top right;
     background-repeat:no-repeat;
+    background-color:rgba(0,0,0,0.2) !important; 
 }
 .poster {
     max-width: 280px;

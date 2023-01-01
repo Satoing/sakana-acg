@@ -1,5 +1,5 @@
 <template>
-    <div class="banner flex flex-row-reverse">
+    <div class="banner flex flex-row-reverse" :class="{istrans: $store.state.htrans}">
         <router-link to="/" style="margin-right:3%">
             <img src="./static/sakana.png" class="avatar">
         </router-link>
@@ -41,6 +41,14 @@ export default {
 </script>
 
 <style scoped>
+@media (max-width:820px){
+    .title {
+        display: none;
+    }
+}
+.istrans {
+    background-color: transparent !important;
+}
 .banner {
     background-color: #0a0c0f;
     height: 80px;
