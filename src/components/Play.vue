@@ -157,7 +157,7 @@ export default {
         load_info() {
             axios.get(`https://acg-api.fullcomb.top/proxy?url=${localStorage.url}`).then(resp=>{
                 let renamed = eval
-                renamed(resp.data)
+                renamed(unescape(resp.data))
                 if(typeof(playarr)!="undefined")
                     {playarr.shift();this.playlist=playarr;this.line[0]=1}
                 if(typeof(playarr_2)!="undefined")

@@ -13,6 +13,7 @@
                     <h2 class="title">{{ title }}</h2>
                     <div style="font-size:14px;line-height:2rem;">
                         <span style="margin-right:10px;display:inline-block">更新至第 <b style="color:orange">{{ update }}</b> 话</span>
+                        <!-- <span style="margin-right:10px;display:inline-block"></span> -->
                         <el-switch
                             v-model="more"
                             size="large"
@@ -138,7 +139,6 @@ export default {
             this.load_more()
         },
         more() {
-            this.text = "开启背景"
             if(this.more) this.$store.state.htrans = true
             else this.$store.state.htrans = false
         }
@@ -178,21 +178,29 @@ export default {
                     if(typeof(playarr_lz)!="undefined") {playarr_lz = undefined}
                     if(typeof(playarr_fs)!="undefined") {playarr_fs = undefined}
                     let renamed = eval
-                    renamed(resp.data)
+                    renamed(unescape(resp.data))
                     // this.update = unescape(playarr[playarr.length-1].split(",")[2])
-                    // this.update = lianzaijs_lz
+                    let max_len = 0
+                    let flag = 0
                     if(typeof(playarr)!="undefined")
-                        {playarr.shift();this.playlist=playarr;this.line[0]=1}
+                        {playarr.shift();if(playarr.length>max_len){max_len=playarr.length;flag=0};this.playlist=playarr;this.line[0]=1}
                     if(typeof(playarr_2)!="undefined")
-                        {playarr_2.shift();this.playlist_yj=playarr_2;this.line[1]=1}
+                        {playarr_2.shift();if(playarr_2.length>max_len){max_len=playarr_2.length;flag=2};this.playlist_yj=playarr_2;this.line[1]=1}
                     if(typeof(playarr_1)!="undefined")
-                        {playarr_1.shift();this.playlist_zd=playarr_1;this.line[2]=1}
+                        {playarr_1.shift();if(playarr_1.length>max_len){max_len=playarr_1.length;flag=1};this.playlist_zd=playarr_1;this.line[2]=1}
                     if(typeof(playarr_wj)!="undefined")
-                        {playarr_wj.shift();this.playlist_wt=playarr_wj;this.line[3]=1}
+                        {playarr_wj.shift();if(playarr_wj.length>max_len){max_len=playarr_wj.length;flag=3};this.playlist_wt=playarr_wj;this.line[3]=1}
                     if(typeof(playarr_lz)!="undefined")
-                        {playarr_lz.shift();this.playlist_lz=playarr_lz;this.line[4]=1}
+                        {playarr_lz.shift();if(playarr_lz.length>max_len){max_len=playarr_lz.length;flag=4};this.playlist_lz=playarr_lz;this.line[4]=1}
                     if(typeof(playarr_fs)!="undefined")
-                        {playarr_fs.shift();this.playlist_fs=playarr_fs;this.line[5]=1}
+                        {playarr_fs.shift();if(playarr_fs.length>max_len){max_len=playarr_fs.length;flag=5};this.playlist_fs=playarr_fs;this.line[5]=1}
+                    
+                    if(flag==0) {this.update = playarr[playarr.length-1].split(",")[2]}
+                    if(flag==1) {this.update = playarr_1[playarr_1.length-1].split(",")[2]}
+                    if(flag==2) {this.update = playarr_2[playarr_2.length-1].split(",")[2]}
+                    if(flag==3) {this.update = playarr_wj[playarr_wj.length-1].split(",")[2]}
+                    if(flag==4) {this.update = playarr_lz[playarr_lz.length-1].split(",")[2]}
+                    if(flag==5) {this.update = playarr_fs[playarr_fs.length-1].split(",")[2]}
                 })
             })
         },
