@@ -42,4 +42,4 @@ https://user-images.githubusercontent.com/68995451/210059863-a7a7d8ce-9b25-47f7-
 
 ## 实现
 
-见博客（todo）。
+见[博客：AGE动漫客户端的实现](https://blog.fullcomb.top/post/acg)。
