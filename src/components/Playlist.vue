@@ -1,7 +1,8 @@
 <template>
     <div class="min-h-screen" style="padding-top:80px">
         <div class="backg" style="background-color:#111319;"></div>
-        <div class="backg" :class="{defaultbg: !more, mybg: more}">
+        <div class="backg defaultbg"></div>
+        <div class="backg mybg" v-show="more">
             <div class="backdrop-brightness-50 backdrop-blur-sm" style="width:100%;height:100%;"></div>
         </div>
         <div class="min-h-screen p-4">
