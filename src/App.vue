@@ -18,7 +18,6 @@
         </div>
     </div>
     <router-view></router-view>
-    <div class=""></div>
 </template>
 
 <script>
@@ -69,5 +68,11 @@ export default {
 }
 .btns {
     margin: 25px 0 10px 20px;
+}
+.sakana-box{
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  transform-origin: 100% 100%; /* 从右下开始变换 */
 }
 </style>

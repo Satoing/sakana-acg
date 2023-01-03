@@ -43,3 +43,5 @@ https://user-images.githubusercontent.com/68995451/210059863-a7a7d8ce-9b25-47f7-
 ## 实现
 
 见[博客：AGE动漫客户端的实现](https://blog.fullcomb.top/post/acg)。
+
+> 另外，加载太慢的话，不妨玩玩右下角的[「石蒜模拟器」](https://github.com/itorr/sakana)。

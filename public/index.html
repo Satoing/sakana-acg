@@ -8,6 +8,12 @@
     <title>Sakana动漫</title>
     <style>
       @import url("https://s1.hdslb.com/bfs/static/jinkela/long/font/regular.css");
+      html .sakana-box{
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        transform-origin: 100% 100%; /* 从右下开始变换 */
+      }
     </style>
   </head>
   <body>
@@ -16,5 +22,15 @@
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
+    <div class="sakana-box"></div>
+    <script src="https://cdn.jsdelivr.net/npm/sakana"></script>
+    <script>
+    Sakana.init({
+      el:         '.sakana-box',     // 启动元素 node 或 选择器
+      scale:      .3,                // 缩放倍数
+      canSwitchCharacter: true,      // 允许换角色
+    });
+    Sakana.setMute(false);
+    </script>
   </body>
 </html>
