@@ -2,7 +2,10 @@
 
 > 使用vue + electron制作的动漫客户端。
 
-**兴趣使然的一个项目，数据源为Age动漫和Bangumi以及必应图片。web的前端和后端都部署在vercel上，完全是0成本的，所以不会有任何广告。**
+**兴趣使然的一个项目，数据源为Age动漫和Bangumi以及必应图片。web的前端和后端都部署在vercel上。**
+
+在线预览：[https://sakana.fullcomb.top](https://sakana.fullcomb.top)
+> PS: 由于Vercel强制https，而iframe引入的网站都是http，所以网页端动漫不能正常播放。体验完整的功能请使用客户端。
 
 ## 基本功能
 
