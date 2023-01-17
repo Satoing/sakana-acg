@@ -130,7 +130,7 @@ export default {
     },
     computed: {
         videourl() {
-            return `https://player.cycdm01.top/?url=${this.videoUrl}`
+            return `http://test89.quelingfei.com:8044/aliplayer.php?url=${this.videoUrl}`
         },
         videourl1() {
             return `http://v2.shenjw.com:8022/wap.php?url=${this.videoUrl}`

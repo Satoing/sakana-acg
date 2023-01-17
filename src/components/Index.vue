@@ -52,7 +52,7 @@
 import axios from 'axios'
 import cheerio from 'cheerio'
 import Card from './Card.vue'
-// import { getList } from '../utils/api'
+import { getList } from '../utils/api'
 
 export default {
     data() {
@@ -81,73 +81,6 @@ export default {
         year: function() { this.get_anime_list() },
         page: function() { this.add_anime_list() }
     },
-    // methods: {
-    //     lazyLoading () { 
-    //         // 滚动到底部，再加载的处理事件
-    //         // 获取 可视区高度`、`滚动高度`、`页面高度`
-    //         let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-    //         let clientHeight = document.documentElement.clientHeight;
-    //         let scrollHeight = document.documentElement.scrollHeight;
-    //         if (scrollTop + clientHeight + 0.5 >= scrollHeight) { // 滚动到底部，逻辑代码
-    //             //事件处理
-    //             if(this.count==30) {
-    //                 this.page+=1
-    //                 console.log("触发");
-    //             }
-    //         }
-    //     },
-    //     get_anime_list() {
-    //         const animelist = []
-    //         let count = 0
-    //         const url = encodeURIComponent(`http://121.4.190.96:9991/getsortdata_all_a.php?action=acg&year=${this.year}&area=${this.area}&class=${this.tag}&page=${this.page}`)
-    //         getList(url).then(res=>{
-    //             this.html = res.data
-    //             const $ = cheerio.load(res.data)
-    //             const infos = $('li > a')
-    //             infos.each(function (idx, el) {
-    //                 const url = el.attribs.href
-    //                 // console.log(url.substring(0, 3));
-    //                 if(url.substring(0, 4)!='http') {
-    //                     const thumb = el.childNodes[1].attribs.src
-    //                     const title = el.childNodes[1].attribs.title
-    //                     // const update = el.childNodes[3].children[0].data
-    //                     animelist.push({ url, thumb, title })
-    //                 }
-    //                 count++
-    //             })
-    //             this.animelist = animelist
-    //             this.count = count
-    //             // console.log(count);
-    //         })
-    //     },
-    //     add_anime_list() {
-    //         const animelist = []
-    //         let count = 0
-    //         const url = encodeURIComponent(`http://121.4.190.96:9991/getsortdata_all_a.php?action=acg&year=${this.year}&area=${this.area}&class=${this.tag}&page=${this.page}`)
-    //         getList(url).then(res=>{
-    //             this.html = res.data
-    //             const $ = cheerio.load(res.data)
-    //             const infos = $('li > a')
-    //             infos.each(function (idx, el) {
-    //                 const url = el.attribs.href
-    //                 // console.log(url.substring(0, 3));
-    //                 if(url.substring(0, 4)!='http') {
-    //                     const thumb = el.childNodes[1].attribs.src
-    //                     const title = el.childNodes[1].attribs.title
-    //                     // const update = el.childNodes[3].children[0].data
-    //                     animelist.push({ url, thumb, title })
-    //                 }
-    //                 count++
-    //             })
-    //             console.log(animelist);
-    //             for(const anime of animelist) {
-    //                 this.animelist.push(anime)
-    //             }
-    //             this.count = count
-    //             console.log(count);
-    //         })
-    //     }
-    // },
     methods: {
         lazyLoading () { 
             // 滚动到底部，再加载的处理事件
@@ -164,26 +97,10 @@ export default {
             }
         },
         get_anime_list() {
-            const baseURL = `http://121.4.190.96:9991`
-            const service = axios.create({
-                baseURL,
-                timeout:5000
-            })
-            service.interceptors.response.use(
-                response => {
-                    if(response.status == 200) {
-                        return Promise.resolve(response)
-                    }else{
-                        return Promise.reject(response)
-                    }
-                }
-            )
             const animelist = []
             let count = 0
-            service({
-                url: `/getsortdata_all_a.php?action=acg&year=${this.year}&area=${this.area}&class=${this.tag}&page=${this.page}`,
-                method: 'get'
-            }).then(res=>{
+            const url = encodeURIComponent(`http://121.4.190.96:9991/getsortdata_all_a.php?action=acg&year=${this.year}&area=${this.area}&class=${this.tag}&page=${this.page}`)
+            getList(url).then(res=>{
                 this.html = res.data
                 const $ = cheerio.load(res.data)
                 const infos = $('li > a')
@@ -204,26 +121,10 @@ export default {
             })
         },
         add_anime_list() {
-            const baseURL = `http://121.4.190.96:9991`
-            const service = axios.create({
-                baseURL,
-                timeout:5000
-            })
-            service.interceptors.response.use(
-                response => {
-                    if(response.status == 200) {
-                        return Promise.resolve(response)
-                    }else{
-                        return Promise.reject(response)
-                    }
-                }
-            )
             const animelist = []
             let count = 0
-            service({
-                url: `/getsortdata_all_a.php?action=acg&year=${this.year}&area=${this.area}&class=${this.tag}&page=${this.page}`,
-                method: 'get'
-            }).then(res=>{
+            const url = encodeURIComponent(`http://121.4.190.96:9991/getsortdata_all_a.php?action=acg&year=${this.year}&area=${this.area}&class=${this.tag}&page=${this.page}`)
+            getList(url).then(res=>{
                 this.html = res.data
                 const $ = cheerio.load(res.data)
                 const infos = $('li > a')
@@ -247,6 +148,105 @@ export default {
             })
         }
     },
+    // methods: {
+    //     lazyLoading () { 
+    //         // 滚动到底部，再加载的处理事件
+    //         // 获取 可视区高度`、`滚动高度`、`页面高度`
+    //         let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+    //         let clientHeight = document.documentElement.clientHeight;
+    //         let scrollHeight = document.documentElement.scrollHeight;
+    //         if (scrollTop + clientHeight + 0.5 >= scrollHeight) { // 滚动到底部，逻辑代码
+    //             //事件处理
+    //             if(this.count==30) {
+    //                 this.page+=1
+    //                 console.log("触发");
+    //             }
+    //         }
+    //     },
+    //     get_anime_list() {
+    //         const baseURL = `http://121.4.190.96:9991`
+    //         const service = axios.create({
+    //             baseURL,
+    //             timeout:5000
+    //         })
+    //         service.interceptors.response.use(
+    //             response => {
+    //                 if(response.status == 200) {
+    //                     return Promise.resolve(response)
+    //                 }else{
+    //                     return Promise.reject(response)
+    //                 }
+    //             }
+    //         )
+    //         const animelist = []
+    //         let count = 0
+    //         service({
+    //             url: `/getsortdata_all_a.php?action=acg&year=${this.year}&area=${this.area}&class=${this.tag}&page=${this.page}`,
+    //             method: 'get'
+    //         }).then(res=>{
+    //             this.html = res.data
+    //             const $ = cheerio.load(res.data)
+    //             const infos = $('li > a')
+    //             infos.each(function (idx, el) {
+    //                 const url = el.attribs.href
+    //                 // console.log(url.substring(0, 3));
+    //                 if(url.substring(0, 4)!='http') {
+    //                     const thumb = el.childNodes[1].attribs.src
+    //                     const title = el.childNodes[1].attribs.title
+    //                     // const update = el.childNodes[3].children[0].data
+    //                     animelist.push({ url, thumb, title })
+    //                 }
+    //                 count++
+    //             })
+    //             this.animelist = animelist
+    //             this.count = count
+    //             // console.log(count);
+    //         })
+    //     },
+    //     add_anime_list() {
+    //         const baseURL = `http://121.4.190.96:9991`
+    //         const service = axios.create({
+    //             baseURL,
+    //             timeout:5000
+    //         })
+    //         service.interceptors.response.use(
+    //             response => {
+    //                 if(response.status == 200) {
+    //                     return Promise.resolve(response)
+    //                 }else{
+    //                     return Promise.reject(response)
+    //                 }
+    //             }
+    //         )
+    //         const animelist = []
+    //         let count = 0
+    //         service({
+    //             url: `/getsortdata_all_a.php?action=acg&year=${this.year}&area=${this.area}&class=${this.tag}&page=${this.page}`,
+    //             method: 'get'
+    //         }).then(res=>{
+    //             this.html = res.data
+    //             const $ = cheerio.load(res.data)
+    //             const infos = $('li > a')
+    //             infos.each(function (idx, el) {
+    //                 const url = el.attribs.href
+    //                 // console.log(url.substring(0, 3));
+    //                 if(url.substring(0, 4)!='http') {
+    //                     const thumb = el.childNodes[1].attribs.src
+    //                     const title = el.childNodes[1].attribs.title
+    //                     // const update = el.childNodes[3].children[0].data
+    //                     animelist.push({ url, thumb, title })
+    //                 }
+    //                 count++
+    //             })
+    //             console.log(animelist);
+    //             for(const anime of animelist) {
+    //                 this.animelist.push(anime)
+    //             }
+    //             this.count = count
+    //             console.log(count);
+    //         })
+    //     }
+    // },
     destroyed() { 
     	window.removeEventListener('scroll', this.lazyLoading)
     }
